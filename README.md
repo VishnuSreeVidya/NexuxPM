@@ -1,35 +1,38 @@
-# NexuxPM — Role-Based Project Management System
+# NexuxPM – Project Management System
 
-NexuxPM is a full-stack project management workspace with five role-specific dashboards, server-enforced authentication and authorization, project/task/defect workflows, notifications, and private employee profile photos. The React frontend is deployed as a static site on GitHub Pages; the FastAPI service, PostgreSQL database, and S3-compatible object storage are separate hosted components.
+A full-stack, role-based Project Management System designed to help organizations manage projects, teams, tasks, milestones, bugs, and overall project progress through a centralized platform.
 
 - **Live frontend:** https://vishnusreevidya.github.io/NexuxPM/
 - **Repository:** https://github.com/VishnuSreeVidya/NexuxPM
 - **Author:** Vishnu Sree Vidya
 
-## Overview
+## Project overview
 
-The application models a delivery organization: Super Admins own the portfolio, Project Leads own delivery, Team Leaders distribute work, Developers implement tasks, and QA Engineers verify work and manage defects. Navigation, route guards, permissions, and record-scope filtering are applied in both the frontend and the API. The UI is responsive and caches shared workspace state locally while the API remains the source of truth for authenticated data.
+NexuxPM provides dedicated workspaces for different organizational roles. It supports centralized project administration, team collaboration, task tracking, bug management, notifications, and project monitoring. The React frontend is deployed as a static site on GitHub Pages; the FastAPI service, PostgreSQL database, and S3-compatible object storage are separate hosted components.
+
+Navigation, route guards, permissions, and record-scope filtering are applied in both the frontend and the API. The UI is responsive and caches shared workspace state locally while the API remains the source of truth for authenticated data.
 
 ## Key features
 
-- Five role dashboards with role-specific statistics, charts, tables, workload views, deadlines, and activity
-- Shared, role-aware Projects, Tasks, Activity, Notifications, Profile, and Settings views
-- Server-side JWT authentication, password hashing, role assignments, and role switching
-- Project, task, bug, comment, and workflow-transition APIs with role-scoped visibility
-- Soft-delete migrations that preserve dependent records
-- Private profile photos stored in an S3-compatible bucket, served only through authenticated API endpoints, with initials as fallback
-- Search, filtering, detail modals, notification read state, profile editing, and demo-data reset
+- JWT-based authentication and authorization, with multiple-role switching without logging out
+- Five role-based workspaces with dedicated dashboards, statistics, charts, tables, workload, and activity views
+- Project and team management, task assignment, progress tracking, and reviews
+- Sprint/milestone views, task comments, and activity history
+- Bug reporting, verification, and tracking, plus notifications and reports/project monitoring
+- Profile photo upload and management with private S3-compatible object storage
+- PostgreSQL persistence with additive, idempotent schema migrations
+- Server-enforced role permissions and record-scoped API responses
 - Automatic static-site deployment through the official GitHub Pages Actions workflow
 
 ## Five role-based workspaces
 
-| Role | Workspace focus |
+| Role | Workspace focus and responsibilities |
 | --- | --- |
-| Super Admin | Portfolio oversight, projects, Project Lead assignment, and administrative control |
-| Project Lead | Delivery health across assigned projects and Team Leader assignment |
-| Team Leader | Team workload, task distribution, and task execution |
-| Developer | Personal task queue, progress updates, deadlines, and defect fixes |
-| QA Engineer | Verification queue, defect reporting, and fix validation |
+| Super Admin | Company-level management, project creation, portfolio oversight, and Project Lead assignment |
+| Project Lead | Project portfolio, delivery health, milestones, risks, performance monitoring, and Team Leader assignment |
+| Team Leader | Team workload, task assignment, progress tracking, and reviews |
+| Developer | Assigned tasks, sprint work, deadlines, blockers, and defect fixes |
+| QA Engineer | Test activities, bug reporting, verification, retesting, and fix validation |
 
 Seeded demo accounts (password `demo123` for all) can be selected with one click on the login screen:
 
@@ -41,15 +44,19 @@ Seeded demo accounts (password `demo123` for all) can be selected with one click
 | Developer | `elena.petrova@nexuspm.dev` |
 | QA Engineer | `aisha.rahman@nexuspm.dev` |
 
+The delivery workflow is: Super Admin creates projects and assigns a Project Lead → Project Lead assigns Team Leaders → Team Leader distributes tasks → Developer implements tasks and submits fixes → QA verifies work and manages defects.
+
 ## Technology stack
 
-**Frontend:** React 19, Vite 8, React Router 7 (hash-based routing), Lucide icons, plain CSS, `localStorage` caching.
+**Frontend:** React 19, Vite 8, JavaScript, CSS, React Router 7 (hash-based routing), Lucide React, `localStorage` caching.
 
-**Backend:** FastAPI, SQLAlchemy 2, Pydantic / pydantic-settings, PostgreSQL (psycopg 3), PyJWT, boto3, Pillow, python-multipart, Uvicorn.
+**Backend:** Python 3.13+, FastAPI, SQLAlchemy 2, Pydantic / pydantic-settings, psycopg 3, PyJWT, python-multipart.
 
-**DevOps:** GitHub Actions (`actions/configure-pages`, `actions/upload-pages-artifact`, `actions/deploy-pages`), GitHub Pages, npm, Python virtual environment, Postman collection/specs.
+**Database and storage:** PostgreSQL, private S3-compatible object storage (boto3), Pillow image processing.
 
-## Architecture and folder structure
+**Development and testing:** Git and GitHub, GitHub Actions, npm, Postman collection/specs, Python `unittest`/TestClient suites (Pytest-compatible style), optional Docker-based hosting.
+
+## Project architecture and folder structure
 
 ```text
 NexuxPM/
@@ -71,7 +78,7 @@ NexuxPM/
 ├── postman/                             # API collection, specs, environments, globals
 ├── public/                              # favicon and icon sprite
 └── src/
-    ├── components/                      # Common, layout, dashboard, task UI
+    ├── components/                      # Common, layout, dashboard, project, task UI
     ├── context/                         # Data, Auth, Toast providers
     ├── hooks/, utils/, reducers/        # Shared logic, permissions, selectors
     ├── data/, services/                 # Seed data, API client, localStorage
@@ -84,12 +91,14 @@ Request flow: React components → context actions → `src/services/api.js` →
 
 ## Frontend setup
 
-Requires Node.js 22 (or a Node version supported by Vite 8).
+Requires Node.js 22 (or another Node version supported by Vite 8).
 
 ```bash
+git clone https://github.com/VishnuSreeVidya/NexuxPM.git
+cd NexuxPM
 npm ci
 cp .env.example .env.local          # then replace the placeholder API URL
-npm run dev                         # http://localhost:5173
+npm run dev                         # http://localhost:5173/NexuxPM/
 ```
 
 For a local API, set `.env.local` to `VITE_API_BASE_URL=http://127.0.0.1:8000`. Leave it unset in production builds unless a public API is hosted. The frontend uses a localhost fallback **only in development**; the deployed bundle never hardcodes localhost.
@@ -104,7 +113,7 @@ Vite's base path is `/NexuxPM/`, so production assets resolve under `/NexuxPM/as
 
 ## Backend setup
 
-The API is **not** hosted on GitHub Pages. Host FastAPI, PostgreSQL, and object storage on a platform that supports long-running processes and persistent data (for example a container platform plus managed PostgreSQL and S3-compatible storage).
+The API is **not** hosted on GitHub Pages. Host FastAPI, PostgreSQL, and object storage on a platform that supports long-running processes and persistent data (for example Docker containers plus managed PostgreSQL and S3-compatible storage).
 
 ```bash
 cd backend
@@ -114,11 +123,11 @@ pip install "fastapi>=0.115,<1" "uvicorn>=0.30,<1" "sqlalchemy>=2,<3" \
   "pydantic>=2,<3" "pydantic-settings>=2,<3" "psycopg[binary]>=3,<4" \
   "PyJWT>=2.10,<3" "python-multipart>=0.0.20,<1" "boto3>=1.44,<2" \
   "Pillow>=11,<13" "httpx>=0.27,<1"
-pip install -r requirements-auth.txt  # optional pinning for auth/storage extras
+pip install -r requirements-auth.txt  # auth/storage extra pins
 cp .env.example .env                  # then replace every placeholder
 python init_db.py
 python seed_db.py                     # optional: load the five demo roles
-uvicorn main:app --host 0.0.0.0 --port 8000
+uvicorn main:app --reload --port 8000
 ```
 
 Existing databases can use the idempotent additive migrations `migrate_user_roles.py`, `migrate_profile_image_key.py`, and `migrate_soft_delete.py`. They preserve existing rows. Set `FRONTEND_ORIGINS` in the backend environment to include `https://vishnusreevidya.github.io` so browser requests from Pages are allowed by CORS.
@@ -138,7 +147,7 @@ Backend `backend/.env.example` / `backend/.env`:
 ```dotenv
 DATABASE_URL=postgresql+psycopg://USERNAME:PASSWORD@HOST:5432/DATABASE_NAME
 JWT_SECRET=REPLACE_WITH_A_LONG_RANDOM_STRING
-JWT_ACCESS_TOKEN_EXPIRE_MINUTES=60
+JWT_ACCESS_TOKEN_EXPIRE_MINUTES=30
 FRONTEND_ORIGINS=http://localhost:5173,https://vishnusreevidya.github.io
 S3_ENDPOINT_URL=https://s3.example.com
 S3_BUCKET=REPLACE_WITH_BUCKET_NAME
@@ -199,6 +208,7 @@ Only the static frontend is deployed. FastAPI, PostgreSQL, and object storage ne
 
 - Keep `.env`, `.env.local`, `backend/.env`, credentials, JWT secrets, passwords, and private keys out of Git; `.gitignore` excludes them. Postman environment and globals files are intentionally empty.
 - Use a strong random `JWT_SECRET` in the backend environment; never expose it to the frontend.
+- Protected API endpoints use authentication and authorization; role-based permissions restrict application operations.
 - Restrict `FRONTEND_ORIGINS` to trusted origins and serve the API over HTTPS in production.
 - Profile-photo buckets stay private; images are returned only by authenticated endpoints with `Cache-Control: private, no-store` and `X-Content-Type-Options: nosniff`.
 - Do not rely on client-side role checks alone; the API enforces roles and record scope.
@@ -206,12 +216,15 @@ Only the static frontend is deployed. FastAPI, PostgreSQL, and object storage ne
 
 ## Future enhancements
 
-- Audit logging and exportable compliance reports
-- Milestone planning and Gantt-style timeline views
+- Advanced analytics, reporting, and exportable compliance reports
+- Enhanced dashboard visualizations and Gantt-style milestone timelines
+- Sprint planning, team capacity forecasting, and workload balancing
 - Email/in-app notification preferences and digest delivery
-- Team capacity forecasting and workload balancing
-- Managed environment promotion (staging → production) and database backup automation
+- Additional collaboration features and expanded project performance insights
+- Managed staging → production promotion and database backup automation
 
 ---
 
-**Author:** Vishnu Sree Vidya · **GitHub:** https://github.com/VishnuSreeVidya
+**Author:** Vishnu Sree Vidya · **GitHub:** [VishnuSreeVidya](https://github.com/VishnuSreeVidya)
+
+**NexuxPM – Plan. Collaborate. Deliver.**
