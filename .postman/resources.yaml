@@ -1,0 +1,12 @@
+# Use this workspace to collaborate
+workspace:
+  id: db2585e0-7fe8-499b-8ca5-86bc9d083479
+
+localResources:
+  specs:
+    - ../postman/specs/Project Management Tool API/index.json
+    - ../postman/specs/Project Management Tool API-1/index.json
+resourceNameMappings:
+  specs:
+    - ../postman/specs/Project Management Tool API/index.json: Project Management Tool API
+    - ../postman/specs/Project Management Tool API-1/index.json: Project Management Tool API

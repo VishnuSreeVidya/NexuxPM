@@ -1,0 +1,88 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/tasks/:task_id/comments"
+  method: POST
+  headers:
+    - key: Content-Type
+      value: application/json
+    - key: Accept
+      value: application/json
+    - key: Authorization
+      value: Bearer <token>
+      description: "Added as a part of security scheme: bearer"
+  pathVariables:
+    task_id: string
+  body:
+    type: json
+    content: |-
+      {
+        "body": "string"
+      }
+response:
+  statusCode: 201
+  statusText: Created
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "id": "string",
+        "authorId": "string",
+        "author": {
+          "id": "string",
+          "name": "string"
+        },
+        "body": "string",
+        "createdAt": "1948-10-15T00:13:08.389Z"
+      }
+    $type: |-
+      {
+        "title": "TaskCommentResponse",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "authorId": {
+            "type": "string",
+            "title": "Authorid"
+          },
+          "author": {
+            "type": "object",
+            "title": "TaskCommentAuthorResponse",
+            "properties": {
+              "id": {
+                "type": "string",
+                "title": "Id"
+              },
+              "name": {
+                "type": "string",
+                "title": "Name"
+              }
+            },
+            "required": [
+              "id",
+              "name"
+            ]
+          },
+          "body": {
+            "type": "string",
+            "title": "Body"
+          },
+          "createdAt": {
+            "type": "string",
+            "title": "Createdat",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "authorId",
+          "author",
+          "body",
+          "createdAt"
+        ]
+      }
+order: 1000

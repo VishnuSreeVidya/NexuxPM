@@ -1,0 +1,50 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/auth/me/profile-photo"
+  method: POST
+  headers:
+    - key: Content-Type
+      value: multipart/form-data
+    - key: Accept
+      value: application/json
+    - key: Authorization
+      value: Bearer <token>
+      description: "Added as a part of security scheme: bearer"
+  body:
+    type: formdata
+    content:
+      - type: text
+        key: file
+        value: string
+        description: ""
+response:
+  statusCode: 201
+  statusText: Created
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "profileImageAvailable": false,
+        "cleanupWarning": false
+      }
+    $type: |-
+      {
+        "title": "ProfilePhotoMutationResponse",
+        "type": "object",
+        "properties": {
+          "profileImageAvailable": {
+            "type": "boolean",
+            "title": "Profileimageavailable"
+          },
+          "cleanupWarning": {
+            "type": "boolean",
+            "title": "Cleanupwarning"
+          }
+        },
+        "required": [
+          "profileImageAvailable"
+        ]
+      }
+order: 1000

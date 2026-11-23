@@ -1,0 +1,99 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/tasks/:task_id/comments"
+  method: GET
+  headers:
+    - key: Accept
+      value: application/json
+    - key: Authorization
+      value: Bearer <token>
+      description: "Added as a part of security scheme: bearer"
+  pathVariables:
+    task_id: string
+  body:
+    type: text
+    content: ""
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      [
+        {
+          "id": "string",
+          "authorId": "string",
+          "author": {
+            "id": "string",
+            "name": "string"
+          },
+          "body": "string",
+          "createdAt": "1946-12-01T16:05:06.191Z"
+        },
+        {
+          "id": "string",
+          "authorId": "string",
+          "author": {
+            "id": "string",
+            "name": "string"
+          },
+          "body": "string",
+          "createdAt": "1970-03-03T14:05:38.429Z"
+        }
+      ]
+    $type: |-
+      {
+        "type": "array",
+        "title": "Response List Task Comments Tasks  Task Id  Comments Get",
+        "items": {
+          "title": "TaskCommentResponse",
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "title": "Id"
+            },
+            "authorId": {
+              "type": "string",
+              "title": "Authorid"
+            },
+            "author": {
+              "type": "object",
+              "title": "TaskCommentAuthorResponse",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "title": "Id"
+                },
+                "name": {
+                  "type": "string",
+                  "title": "Name"
+                }
+              },
+              "required": [
+                "id",
+                "name"
+              ]
+            },
+            "body": {
+              "type": "string",
+              "title": "Body"
+            },
+            "createdAt": {
+              "type": "string",
+              "title": "Createdat",
+              "format": "date-time"
+            }
+          },
+          "required": [
+            "id",
+            "authorId",
+            "author",
+            "body",
+            "createdAt"
+          ]
+        }
+      }
+order: 1000

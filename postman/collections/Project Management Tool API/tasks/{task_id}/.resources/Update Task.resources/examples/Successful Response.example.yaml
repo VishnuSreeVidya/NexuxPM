@@ -1,0 +1,217 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/tasks/:task_id"
+  method: PUT
+  headers:
+    - key: Content-Type
+      value: application/json
+    - key: Accept
+      value: application/json
+    - key: Authorization
+      value: Bearer <token>
+      description: "Added as a part of security scheme: bearer"
+  pathVariables:
+    task_id: string
+  body:
+    type: json
+    content: |-
+      {
+        "title": null,
+        "description": "string",
+        "assigneeId": null,
+        "qaId": "string",
+        "priority": "high",
+        "dueDate": null
+      }
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "id": "string",
+        "projectId": "string",
+        "title": "string",
+        "description": "string",
+        "assigneeId": "string",
+        "qaId": "string",
+        "priority": "medium",
+        "status": "testing",
+        "startDate": "1993-05-30",
+        "dueDate": "1966-01-18",
+        "progress": 8300,
+        "createdBy": "string",
+        "createdAt": "1972-06-03T07:07:51.976Z",
+        "updatedAt": "1967-07-31T13:10:45.525Z",
+        "comments": [
+          {
+            "id": "string",
+            "authorId": "string",
+            "author": {
+              "id": "string",
+              "name": "string"
+            },
+            "body": "string",
+            "createdAt": "1966-12-07T03:50:17.279Z"
+          },
+          {
+            "id": "string",
+            "authorId": "string",
+            "author": {
+              "id": "string",
+              "name": "string"
+            },
+            "body": "string",
+            "createdAt": "2010-02-21T04:56:11.521Z"
+          }
+        ]
+      }
+    $type: |-
+      {
+        "title": "TaskResponse",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "projectId": {
+            "type": "string",
+            "title": "Projectid"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "assigneeId": {
+            "type": "string"
+          },
+          "qaId": {
+            "type": "string"
+          },
+          "priority": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high",
+              "critical"
+            ],
+            "title": "Priority"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "todo",
+              "in_progress",
+              "in_review",
+              "testing",
+              "completed"
+            ],
+            "title": "Status"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "dueDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "progress": {
+            "type": "integer",
+            "title": "Progress"
+          },
+          "createdBy": {
+            "type": "string",
+            "title": "Createdby"
+          },
+          "createdAt": {
+            "type": "string",
+            "title": "Createdat",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "title": "Updatedat",
+            "format": "date-time"
+          },
+          "comments": {
+            "type": "array",
+            "title": "Comments",
+            "items": {
+              "title": "TaskCommentResponse",
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "title": "Id"
+                },
+                "authorId": {
+                  "type": "string",
+                  "title": "Authorid"
+                },
+                "author": {
+                  "type": "object",
+                  "title": "TaskCommentAuthorResponse",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "title": "Id"
+                    },
+                    "name": {
+                      "type": "string",
+                      "title": "Name"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "name"
+                  ]
+                },
+                "body": {
+                  "type": "string",
+                  "title": "Body"
+                },
+                "createdAt": {
+                  "type": "string",
+                  "title": "Createdat",
+                  "format": "date-time"
+                }
+              },
+              "required": [
+                "id",
+                "authorId",
+                "author",
+                "body",
+                "createdAt"
+              ]
+            }
+          }
+        },
+        "required": [
+          "id",
+          "projectId",
+          "title",
+          "description",
+          "assigneeId",
+          "qaId",
+          "priority",
+          "status",
+          "startDate",
+          "dueDate",
+          "progress",
+          "createdBy",
+          "createdAt",
+          "updatedAt",
+          "comments"
+        ]
+      }
+order: 1000
