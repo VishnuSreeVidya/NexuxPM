@@ -1,95 +1,191 @@
-# NexusPM — Role-Based Project Management Workspace
+# NexuxPM – Project Management System
 
-NexusPM is a role-based project management workspace built with React and Vite, backed by a FastAPI/PostgreSQL API. It models a five-role delivery workflow with server-enforced authentication and authorization. Shared workspace data is also cached in the browser with `localStorage`.
+A full-stack, role-based Project Management System designed to help organizations manage projects, teams, tasks, milestones, bugs, and overall project progress through a centralized platform.
 
-> **Profile photos:** employee images are stored in a private S3-compatible SILO bucket and are only served through authenticated API endpoints. Initials remain the fallback for employees without a photo.
+## Overview
 
-## Run locally
+NexuxPM provides dedicated workspaces for different organizational roles. It supports centralized project administration, team collaboration, task tracking, bug management, notifications, and project monitoring.
+
+## Key Features
+
+- JWT-based authentication and authorization
+- Five role-based workspaces
+- Multiple-role switching without logging out
+- Project and team management
+- Task assignment and progress tracking
+- Sprint and milestone management
+- Bug reporting, verification, and tracking
+- Task comments and activity history
+- Notifications
+- Reports and project monitoring
+- Profile photo upload and management
+- PostgreSQL database integration
+- Private S3-compatible object storage for profile photos
+
+## Role-Based Workspaces
+
+| Role | Responsibilities |
+|---|---|
+| Super Admin | Company-level management, project creation, and Project Lead assignment |
+| Project Lead | Project portfolio, milestones, risks, and performance monitoring |
+| Team Leader | Team workload, task assignment, progress tracking, and reviews |
+| Developer | Assigned tasks, sprint work, deadlines, and blockers |
+| QA Engineer | Test activities, bug reporting, verification, and retesting |
+
+## Technology Stack
+
+**Frontend**
+- React
+- Vite
+- JavaScript
+- CSS
+- React Router
+- Lucide React
+
+**Backend**
+- Python
+- FastAPI
+- SQLAlchemy
+- JWT Authentication
+
+**Database and Storage**
+- PostgreSQL
+- S3-compatible object storage
+
+**Development and Testing**
+- Git and GitHub
+- Postman
+- Pytest
+- Docker
+
+## Project Structure
+
+```text
+NexuxPM/
+├── backend/
+│   ├── main.py
+│   ├── auth.py
+│   ├── projects.py
+│   ├── tasks.py
+│   ├── bugs.py
+│   ├── models.py
+│   ├── schemas.py
+│   ├── database.py
+│   └── tests/
+├── src/
+│   ├── components/
+│   ├── pages/
+│   └── ...
+├── public/
+├── postman/
+├── README.md
+├── package.json
+└── vite.config.js
+```
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js and npm
+- Python 3.13+
+- PostgreSQL
+- Git
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/VishnuSreeVidya/NexuxPM.git
+cd NexuxPM
+```
+
+### 2. Frontend Setup
 
 ```bash
 npm install
 npm run dev
 ```
 
-Open the URL printed by Vite. To check the production bundle:
+### 3. Backend Setup
 
 ```bash
-npm run build
-npm run preview
+cd backend
+python -m venv .venv
 ```
 
-## Demo accounts
+Activate the virtual environment on Windows:
 
-Every account uses the password **`demo123`**. The login screen also has five one-click demo role chips.
+```cmd
+.venv\Scripts\activate
+```
 
-| Role | Account | Workspace focus |
-| --- | --- | --- |
-| Super Admin | `ayesha.khan@nexuspm.dev` | Portfolio oversight, project and Project Lead assignment |
-| Project Lead | `sarah.mitchell@nexuspm.dev` | Delivery health across assigned projects |
-| Team Leader | `daniel.okafor@nexuspm.dev` | Team workload and task execution |
-| Developer | `elena.petrova@nexuspm.dev` | Personal task queue and deadlines |
-| QA Engineer | `aisha.rahman@nexuspm.dev` | Verification queue, defects, and testing |
+Install dependencies:
 
-## Workflow and role boundaries
+```bash
+pip install -r requirements.txt
+```
 
-1. The **Super Admin** owns the project portfolio and assigns a Project Lead.
-2. The **Project Lead** owns delivery for assigned projects and can assign Team Leaders.
-3. The **Team Leader** manages task distribution for their team.
-4. The **Developer** completes assigned implementation tasks.
-5. **QA** verifies completed work and manages defects.
+Configure the backend environment variables in a local `.env` file before starting the server.
 
-Role-specific navigation, route guards, permission checks, and record-scope filtering keep each dashboard focused on the current user. Developer and QA project visibility is derived from their assigned tasks.
+Start the backend:
 
-## Phase 1 scope
+```bash
+uvicorn main:app --reload
+```
 
-Implemented:
+### 4. API Documentation
 
-- Five role dashboards with role-specific statistics, charts, tables, workload, and activity
-- Shared Projects, Tasks, Activity, Notifications, Profile, and Settings views with role-aware access
-- Filtering, search, project and task detail modals, notification read state, profile editing, and demo-data reset
-- Responsive sidebar and topbar layouts
-- Seeded demo dataset with relative dates
-
-Not implemented yet:
-
-- Project, task, bug, milestone, and user management forms
-- Full workflow mutations such as assigning leads, moving tasks, and verifying fixes
-- Phases 2–6 from the project plan
-
-## Employee profile photos
-
-Profile photo support is available to every role from **Profile → Profile photo**.
-
-| Operation | Endpoint | Notes |
-| --- | --- | --- |
-| Upload | `POST /auth/me/profile-photo` | Fails with `409` when a photo already exists |
-| Update | `PUT /auth/me/profile-photo` | Replaces the existing object and reference |
-| Remove | `DELETE /auth/me/profile-photo` | Clears the reference and removes the object |
-| Retrieve | `GET /users/{userId}/profile-photo` | Requires a valid bearer token |
-
-- Accepted formats are JPEG, PNG, and WebP, validated from file content rather than the supplied MIME type or filename.
-- Uploads are limited to 5 MB and are resized to at most 2048 px before storage.
-- PostgreSQL stores only the generated object key in `users.profile_image_key`; the bucket itself remains private.
-- The schema change is additive and idempotent: `python migrate_profile_image_key.py`. New databases also apply it through `init_db.py`.
-- Storage configuration is read from `S3_ENDPOINT_URL`, `S3_BUCKET`, `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY`, and `S3_REGION` in `backend/.env`. Keep that file out of version control.
-
-## Structure
+Once the backend is running, access the interactive API documentation:
 
 ```text
-src/
-  components/       Shared UI, layout, dashboard, project, and task components
-  context/          Data, authentication, and toast providers
-  hooks/            Context hooks and small reusable hooks
-  pages/            Route pages, including the five dashboards
-  reducers/         Local state updates
-  routes/           Route tree, guards, and role-filtered navigation
-  services/         Seed data and localStorage persistence
-  styles/           Plain CSS split by concern
-  utils/            Permissions, access rules, selectors, constants, and formatting
+http://127.0.0.1:8000/docs
 ```
 
-`DataContext` is the single source of truth. Pure selectors derive role-scoped projects, tasks, workload, progress, notifications, and activity. `AuthContext` stores the signed-in user, while `ToastContext` handles feedback messages.
+## Environment Configuration
 
-## Data persistence
+Configure your own local environment variables. Never commit actual credentials, passwords, JWT secrets, or storage access keys.
 
-Demo state is stored under the `nexuspm:data:v1` localStorage key. **Settings → Reset demo data** restores the original seeded dataset.
+Example variable names:
+
+```env
+DATABASE_URL=your_database_connection
+JWT_SECRET=your_secret_key
+JWT_ACCESS_TOKEN_EXPIRE_MINUTES=30
+S3_ENDPOINT_URL=your_storage_endpoint
+S3_BUCKET=nexuxpm-profile-photos
+S3_ACCESS_KEY_ID=your_access_key
+S3_SECRET_ACCESS_KEY=your_secret_key
+S3_REGION=us-east-1
+```
+
+## Testing
+
+Run backend tests using:
+
+```bash
+pytest
+```
+
+## Security
+
+- Passwords and credentials must remain outside source control.
+- Protected API endpoints use authentication and authorization.
+- Profile photos are stored in private object storage.
+- Role-based permissions restrict access to application operations.
+
+## Future Enhancements
+
+- Advanced analytics and reporting
+- Enhanced dashboard visualizations
+- Additional collaboration features
+- Expanded project performance insights
+
+## Author
+
+**Vishnu Sree Vidya**
+
+GitHub: [VishnuSreeVidya](https://github.com/VishnuSreeVidya)
+
+---
+
+**NexuxPM – Plan. Collaborate. Deliver.**
