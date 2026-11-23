@@ -1,0 +1,42 @@
+$kind: http-request
+description: ""
+url: "{{baseUrl}}/auth/switch-role"
+method: POST
+headers:
+  Content-Type: application/json
+  Accept: application/json
+body:
+  type: json
+  content: |-
+    {
+      "role": "DEVELOPER"
+    }
+  $type: |-
+    {
+      "title": "RoleSwitchRequest",
+      "type": "object",
+      "properties": {
+        "role": {
+          "type": "string",
+          "enum": [
+            "SUPER_ADMIN",
+            "PROJECT_LEAD",
+            "TEAM_LEADER",
+            "DEVELOPER",
+            "QA_ENGINEER"
+          ],
+          "title": "Role"
+        }
+      },
+      "required": [
+        "role"
+      ],
+      "additionalProperties": false
+    }
+auth:
+  type: bearer
+  credentials:
+    token: "{{bearerToken}}"
+settings: {}
+examples: ./.resources/Switch Role.resources/examples
+order: 1000

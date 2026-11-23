@@ -1,0 +1,89 @@
+$kind: http-request
+description: ""
+url: "{{baseUrl}}/projects"
+method: POST
+headers:
+  Content-Type: application/json
+  Accept: application/json
+body:
+  type: json
+  content: |-
+    {
+      "name": "string",
+      "leadId": "str",
+      "startDate": "1988-08-03",
+      "endDate": "1981-09-20",
+      "code": "string",
+      "description": "",
+      "priority": "medium"
+    }
+  $type: |-
+    {
+      "title": "ProjectCreate",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "title": "Name"
+        },
+        "code": {
+          "title": "Code",
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 12
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 500,
+          "title": "Description"
+        },
+        "leadId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 50,
+          "title": "Leadid"
+        },
+        "priority": {
+          "type": "string",
+          "enum": [
+            "low",
+            "medium",
+            "high",
+            "critical"
+          ],
+          "title": "Priority"
+        },
+        "startDate": {
+          "type": "string",
+          "title": "Startdate",
+          "format": "date"
+        },
+        "endDate": {
+          "type": "string",
+          "title": "Enddate",
+          "format": "date"
+        }
+      },
+      "required": [
+        "name",
+        "leadId",
+        "startDate",
+        "endDate"
+      ],
+      "additionalProperties": false
+    }
+auth:
+  type: bearer
+  credentials:
+    token: "{{bearerToken}}"
+settings: {}
+examples: ./.resources/Create Project.resources/examples
+order: 2000

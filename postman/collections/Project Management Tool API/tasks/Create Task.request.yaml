@@ -1,0 +1,85 @@
+$kind: http-request
+description: ""
+url: "{{baseUrl}}/tasks"
+method: POST
+headers:
+  Content-Type: application/json
+  Accept: application/json
+body:
+  type: json
+  content: |-
+    {
+      "projectId": "string",
+      "title": "s",
+      "assigneeId": "string",
+      "qaId": "st",
+      "dueDate": "2006-11-28",
+      "description": "",
+      "priority": "medium"
+    }
+  $type: |-
+    {
+      "title": "TaskCreate",
+      "type": "object",
+      "properties": {
+        "projectId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 50,
+          "title": "Projectid"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "title": "Title"
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 1000,
+          "title": "Description"
+        },
+        "assigneeId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 50,
+          "title": "Assigneeid"
+        },
+        "qaId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 50,
+          "title": "Qaid"
+        },
+        "priority": {
+          "type": "string",
+          "enum": [
+            "low",
+            "medium",
+            "high",
+            "critical"
+          ],
+          "title": "Priority"
+        },
+        "dueDate": {
+          "type": "string",
+          "title": "Duedate",
+          "format": "date"
+        }
+      },
+      "required": [
+        "projectId",
+        "title",
+        "assigneeId",
+        "qaId",
+        "dueDate"
+      ],
+      "additionalProperties": false
+    }
+auth:
+  type: bearer
+  credentials:
+    token: "{{bearerToken}}"
+settings: {}
+examples: ./.resources/Create Task.resources/examples
+order: 2000

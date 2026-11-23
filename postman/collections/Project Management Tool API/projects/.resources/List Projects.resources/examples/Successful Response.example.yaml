@@ -1,0 +1,171 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/projects"
+  method: GET
+  headers:
+    - key: Accept
+      value: application/json
+    - key: Authorization
+      value: Bearer <token>
+      description: "Added as a part of security scheme: bearer"
+  body:
+    type: text
+    content: ""
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      [
+        {
+          "id": "string",
+          "name": "string",
+          "code": "string",
+          "description": "string",
+          "status": "planning",
+          "priority": "medium",
+          "startDate": "1996-09-19",
+          "endDate": "1963-11-06",
+          "leadId": "string",
+          "teamLeaderIds": [
+            "string",
+            "string"
+          ],
+          "createdBy": "string",
+          "createdAt": "2009-03-24T17:08:30.024Z",
+          "updatedAt": "2018-08-05T10:19:22.075Z"
+        },
+        {
+          "id": "string",
+          "name": "string",
+          "code": "string",
+          "description": "string",
+          "status": "on_hold",
+          "priority": "high",
+          "startDate": "2018-01-07",
+          "endDate": "1966-11-26",
+          "leadId": "string",
+          "teamLeaderIds": [
+            "string",
+            "string"
+          ],
+          "createdBy": "string",
+          "createdAt": "2023-07-09T13:16:11.054Z",
+          "updatedAt": "2014-01-01T12:59:20.108Z"
+        }
+      ]
+    $type: |-
+      {
+        "type": "array",
+        "title": "Response List Projects Projects Get",
+        "items": {
+          "title": "ProjectResponse",
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "title": "Id"
+            },
+            "name": {
+              "type": "string",
+              "title": "Name"
+            },
+            "code": {
+              "type": "string",
+              "title": "Code"
+            },
+            "description": {
+              "type": "string",
+              "title": "Description"
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "planning",
+                "active",
+                "on_hold",
+                "completed"
+              ],
+              "title": "Status"
+            },
+            "priority": {
+              "type": "string",
+              "enum": [
+                "low",
+                "medium",
+                "high",
+                "critical"
+              ],
+              "title": "Priority"
+            },
+            "startDate": {
+              "title": "Startdate",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "endDate": {
+              "title": "Enddate",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "leadId": {
+              "type": "string",
+              "title": "Leadid"
+            },
+            "teamLeaderIds": {
+              "type": "array",
+              "title": "Teamleaderids",
+              "items": {
+                "type": "string"
+              }
+            },
+            "createdBy": {
+              "type": "string",
+              "title": "Createdby"
+            },
+            "createdAt": {
+              "type": "string",
+              "title": "Createdat",
+              "format": "date-time"
+            },
+            "updatedAt": {
+              "type": "string",
+              "title": "Updatedat",
+              "format": "date-time"
+            }
+          },
+          "required": [
+            "id",
+            "name",
+            "code",
+            "description",
+            "status",
+            "priority",
+            "startDate",
+            "endDate",
+            "leadId",
+            "teamLeaderIds",
+            "createdBy",
+            "createdAt",
+            "updatedAt"
+          ]
+        }
+      }
+order: 1000

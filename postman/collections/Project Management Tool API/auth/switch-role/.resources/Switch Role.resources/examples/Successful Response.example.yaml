@@ -1,0 +1,241 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/auth/switch-role"
+  method: POST
+  headers:
+    - key: Content-Type
+      value: application/json
+    - key: Accept
+      value: application/json
+    - key: Authorization
+      value: Bearer <token>
+      description: "Added as a part of security scheme: bearer"
+  body:
+    type: json
+    content: |-
+      {
+        "role": "DEVELOPER"
+      }
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "access_token": "string",
+        "expires_in": 913,
+        "user": {
+          "id": "string",
+          "name": "string",
+          "email": "string",
+          "role": "SUPER_ADMIN",
+          "roles": [
+            "SUPER_ADMIN",
+            "SUPER_ADMIN"
+          ],
+          "activeRole": "PROJECT_LEAD",
+          "department": null,
+          "title": "string",
+          "avatar_color": null,
+          "profileImageAvailable": false,
+          "phone": null,
+          "location": "string",
+          "bio": null,
+          "joined_at": "2015-01-09T21:36:52.193Z",
+          "last_login_at": "2007-06-25T02:49:37.013Z"
+        },
+        "token_type": "bearer"
+      }
+    $type: |-
+      {
+        "title": "LoginResponse",
+        "type": "object",
+        "properties": {
+          "access_token": {
+            "type": "string",
+            "title": "Access Token"
+          },
+          "token_type": {
+            "type": "string",
+            "title": "Token Type"
+          },
+          "expires_in": {
+            "type": "integer",
+            "title": "Expires In"
+          },
+          "user": {
+            "type": "object",
+            "title": "UserProfile",
+            "properties": {
+              "id": {
+                "type": "string",
+                "title": "Id"
+              },
+              "name": {
+                "type": "string",
+                "title": "Name"
+              },
+              "email": {
+                "type": "string",
+                "title": "Email"
+              },
+              "role": {
+                "type": "string",
+                "enum": [
+                  "SUPER_ADMIN",
+                  "PROJECT_LEAD",
+                  "TEAM_LEADER",
+                  "DEVELOPER",
+                  "QA_ENGINEER"
+                ],
+                "title": "Role"
+              },
+              "roles": {
+                "type": "array",
+                "title": "Roles",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "SUPER_ADMIN",
+                    "PROJECT_LEAD",
+                    "TEAM_LEADER",
+                    "DEVELOPER",
+                    "QA_ENGINEER"
+                  ]
+                }
+              },
+              "activeRole": {
+                "type": "string",
+                "enum": [
+                  "SUPER_ADMIN",
+                  "PROJECT_LEAD",
+                  "TEAM_LEADER",
+                  "DEVELOPER",
+                  "QA_ENGINEER"
+                ],
+                "title": "Activerole"
+              },
+              "department": {
+                "title": "Department",
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "title": {
+                "title": "Title",
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "avatar_color": {
+                "title": "Avatar Color",
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "profileImageAvailable": {
+                "type": "boolean",
+                "title": "Profileimageavailable"
+              },
+              "phone": {
+                "title": "Phone",
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "location": {
+                "title": "Location",
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "bio": {
+                "title": "Bio",
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "joined_at": {
+                "title": "Joined At",
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "last_login_at": {
+                "title": "Last Login At",
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "email",
+              "role",
+              "roles",
+              "activeRole",
+              "department",
+              "title",
+              "avatar_color",
+              "profileImageAvailable",
+              "phone",
+              "location",
+              "bio",
+              "joined_at",
+              "last_login_at"
+            ]
+          }
+        },
+        "required": [
+          "access_token",
+          "expires_in",
+          "user"
+        ]
+      }
+order: 1000

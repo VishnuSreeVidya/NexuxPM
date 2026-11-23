@@ -1,0 +1,34 @@
+$kind: http-request
+description: ""
+url: "{{baseUrl}}/projects/:project_id"
+method: GET
+headers:
+  Accept: application/json
+pathVariables:
+  - key: project_id
+    value: string
+    disabled: false
+    description: ""
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "value": {
+            "title": "Project Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "value"
+        ]
+      }
+body:
+  type: text
+  content: ""
+auth:
+  type: bearer
+  credentials:
+    token: "{{bearerToken}}"
+settings: {}
+examples: ./.resources/Get Project.resources/examples
+order: 1000

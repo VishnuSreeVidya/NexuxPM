@@ -1,0 +1,145 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/projects/:project_id"
+  method: PUT
+  headers:
+    - key: Content-Type
+      value: application/json
+    - key: Accept
+      value: application/json
+    - key: Authorization
+      value: Bearer <token>
+      description: "Added as a part of security scheme: bearer"
+  pathVariables:
+    project_id: string
+  body:
+    type: json
+    content: |-
+      {
+        "name": "string",
+        "description": null,
+        "leadId": null,
+        "priority": null,
+        "startDate": "2002-02-26",
+        "endDate": null,
+        "status": null,
+        "teamLeaderIds": null
+      }
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "id": "string",
+        "name": "string",
+        "code": "string",
+        "description": "string",
+        "status": "on_hold",
+        "priority": "critical",
+        "startDate": "1970-11-07",
+        "endDate": "2011-07-14",
+        "leadId": "string",
+        "teamLeaderIds": [
+          "string",
+          "string"
+        ],
+        "createdBy": "string",
+        "createdAt": "1953-11-29T12:40:35.261Z",
+        "updatedAt": "2026-02-25T08:50:05.609Z"
+      }
+    $type: |-
+      {
+        "title": "ProjectResponse",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "code": {
+            "type": "string",
+            "title": "Code"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "planning",
+              "active",
+              "on_hold",
+              "completed"
+            ],
+            "title": "Status"
+          },
+          "priority": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high",
+              "critical"
+            ],
+            "title": "Priority"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "leadId": {
+            "type": "string",
+            "title": "Leadid"
+          },
+          "teamLeaderIds": {
+            "type": "array",
+            "title": "Teamleaderids",
+            "items": {
+              "type": "string"
+            }
+          },
+          "createdBy": {
+            "type": "string",
+            "title": "Createdby"
+          },
+          "createdAt": {
+            "type": "string",
+            "title": "Createdat",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "title": "Updatedat",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "code",
+          "description",
+          "status",
+          "priority",
+          "startDate",
+          "endDate",
+          "leadId",
+          "teamLeaderIds",
+          "createdBy",
+          "createdAt",
+          "updatedAt"
+        ]
+      }
+order: 1000

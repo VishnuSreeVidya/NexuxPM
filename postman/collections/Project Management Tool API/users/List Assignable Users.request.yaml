@@ -1,0 +1,56 @@
+$kind: http-request
+description: ""
+url: "{{baseUrl}}/users?role=DEVELOPER&projectId=string"
+method: GET
+headers:
+  Accept: application/json
+queryParams:
+  - key: role
+    value: DEVELOPER
+    disabled: false
+    description: ""
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "value": {
+            "title": "Role",
+            "type": "string",
+            "enum": [
+              "SUPER_ADMIN",
+              "PROJECT_LEAD",
+              "TEAM_LEADER",
+              "DEVELOPER",
+              "QA_ENGINEER"
+            ]
+          }
+        },
+        "required": [
+          "value"
+        ]
+      }
+  - key: projectId
+    value: string
+    disabled: false
+    description: ""
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 50
+          }
+        }
+      }
+body:
+  type: text
+  content: ""
+auth:
+  type: bearer
+  credentials:
+    token: "{{bearerToken}}"
+settings: {}
+examples: ./.resources/List Assignable Users.resources/examples
+order: 1000

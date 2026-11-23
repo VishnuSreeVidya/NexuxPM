@@ -1,0 +1,60 @@
+$kind: http-request
+description: ""
+url: "{{baseUrl}}/tasks/:task_id/transition"
+method: POST
+headers:
+  Content-Type: application/json
+  Accept: application/json
+pathVariables:
+  - key: task_id
+    value: string
+    disabled: false
+    description: ""
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "value": {
+            "title": "Task Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "value"
+        ]
+      }
+body:
+  type: json
+  content: |-
+    {
+      "status": "in_review"
+    }
+  $type: |-
+    {
+      "title": "TaskTransition",
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "todo",
+            "in_progress",
+            "in_review",
+            "testing",
+            "completed"
+          ],
+          "title": "Status"
+        }
+      },
+      "required": [
+        "status"
+      ],
+      "additionalProperties": false
+    }
+auth:
+  type: bearer
+  credentials:
+    token: "{{bearerToken}}"
+settings: {}
+examples: ./.resources/Transition Task.resources/examples
+order: 1000

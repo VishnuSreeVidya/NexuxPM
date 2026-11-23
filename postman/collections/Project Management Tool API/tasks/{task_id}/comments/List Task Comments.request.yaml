@@ -1,0 +1,34 @@
+$kind: http-request
+description: ""
+url: "{{baseUrl}}/tasks/:task_id/comments"
+method: GET
+headers:
+  Accept: application/json
+pathVariables:
+  - key: task_id
+    value: string
+    disabled: false
+    description: ""
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "value": {
+            "title": "Task Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "value"
+        ]
+      }
+body:
+  type: text
+  content: ""
+auth:
+  type: bearer
+  credentials:
+    token: "{{bearerToken}}"
+settings: {}
+examples: ./.resources/List Task Comments.resources/examples
+order: 1000

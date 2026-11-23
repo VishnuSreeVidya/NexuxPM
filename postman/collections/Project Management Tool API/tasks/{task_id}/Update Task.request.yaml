@@ -1,0 +1,131 @@
+$kind: http-request
+description: ""
+url: "{{baseUrl}}/tasks/:task_id"
+method: PUT
+headers:
+  Content-Type: application/json
+  Accept: application/json
+pathVariables:
+  - key: task_id
+    value: string
+    disabled: false
+    description: ""
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "value": {
+            "title": "Task Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "value"
+        ]
+      }
+body:
+  type: json
+  content: |-
+    {
+      "title": null,
+      "description": "string",
+      "assigneeId": null,
+      "qaId": "string",
+      "priority": "high",
+      "dueDate": null
+    }
+  $type: |-
+    {
+      "title": "TaskUpdate",
+      "type": "object",
+      "properties": {
+        "title": {
+          "title": "Title",
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "description": {
+          "title": "Description",
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 1000
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "assigneeId": {
+          "title": "Assigneeid",
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 50
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "qaId": {
+          "title": "Qaid",
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 50
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "priority": {
+          "title": "Priority",
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "low",
+                "medium",
+                "high",
+                "critical"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "dueDate": {
+          "title": "Duedate",
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+auth:
+  type: bearer
+  credentials:
+    token: "{{bearerToken}}"
+settings: {}
+examples: ./.resources/Update Task.resources/examples
+order: 2000

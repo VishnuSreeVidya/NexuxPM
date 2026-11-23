@@ -1,0 +1,72 @@
+$kind: http-request
+description: ""
+url: "{{baseUrl}}/bugs"
+method: POST
+headers:
+  Content-Type: application/json
+  Accept: application/json
+body:
+  type: json
+  content: |-
+    {
+      "projectId": "s",
+      "taskId": "stri",
+      "title": "string",
+      "description": "strin",
+      "severity": "medium"
+    }
+  $type: |-
+    {
+      "title": "BugCreate",
+      "type": "object",
+      "properties": {
+        "projectId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 50,
+          "title": "Projectid"
+        },
+        "taskId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 50,
+          "title": "Taskid"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "title": "Title"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "title": "Description"
+        },
+        "severity": {
+          "type": "string",
+          "enum": [
+            "low",
+            "medium",
+            "high",
+            "critical"
+          ],
+          "title": "Severity"
+        }
+      },
+      "required": [
+        "projectId",
+        "taskId",
+        "title",
+        "description"
+      ],
+      "additionalProperties": false
+    }
+auth:
+  type: bearer
+  credentials:
+    token: "{{bearerToken}}"
+settings: {}
+examples: ./.resources/Create Bug.resources/examples
+order: 2000

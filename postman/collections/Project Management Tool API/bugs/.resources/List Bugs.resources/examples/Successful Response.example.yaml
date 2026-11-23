@@ -1,0 +1,154 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/bugs"
+  method: GET
+  headers:
+    - key: Accept
+      value: application/json
+    - key: Authorization
+      value: Bearer <token>
+      description: "Added as a part of security scheme: bearer"
+  body:
+    type: text
+    content: ""
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      [
+        {
+          "id": "string",
+          "title": "string",
+          "description": "string",
+          "projectId": "string",
+          "taskId": "string",
+          "severity": "low",
+          "status": "in_progress",
+          "reportedBy": "string",
+          "assignedTo": "string",
+          "verifiedBy": "string",
+          "createdAt": "1992-08-22T10:30:24.229Z",
+          "updatedAt": "2011-03-27T07:28:19.420Z"
+        },
+        {
+          "id": "string",
+          "title": "string",
+          "description": "string",
+          "projectId": "string",
+          "taskId": "string",
+          "severity": "low",
+          "status": "verified",
+          "reportedBy": "string",
+          "assignedTo": "string",
+          "verifiedBy": "string",
+          "createdAt": "1965-11-08T15:03:56.585Z",
+          "updatedAt": "2026-02-03T23:08:19.632Z"
+        }
+      ]
+    $type: |-
+      {
+        "type": "array",
+        "title": "Response List Bugs Bugs Get",
+        "items": {
+          "title": "BugResponse",
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "title": "Id"
+            },
+            "title": {
+              "type": "string",
+              "title": "Title"
+            },
+            "description": {
+              "type": "string",
+              "title": "Description"
+            },
+            "projectId": {
+              "type": "string",
+              "title": "Projectid"
+            },
+            "taskId": {
+              "type": "string",
+              "title": "Taskid"
+            },
+            "severity": {
+              "type": "string",
+              "enum": [
+                "low",
+                "medium",
+                "high",
+                "critical"
+              ],
+              "title": "Severity"
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "open",
+                "in_progress",
+                "fixed",
+                "verified",
+                "reopened"
+              ],
+              "title": "Status"
+            },
+            "reportedBy": {
+              "type": "string",
+              "title": "Reportedby"
+            },
+            "assignedTo": {
+              "title": "Assignedto",
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "verifiedBy": {
+              "title": "Verifiedby",
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "createdAt": {
+              "type": "string",
+              "title": "Createdat",
+              "format": "date-time"
+            },
+            "updatedAt": {
+              "type": "string",
+              "title": "Updatedat",
+              "format": "date-time"
+            }
+          },
+          "required": [
+            "id",
+            "title",
+            "description",
+            "projectId",
+            "taskId",
+            "severity",
+            "status",
+            "reportedBy",
+            "assignedTo",
+            "verifiedBy",
+            "createdAt",
+            "updatedAt"
+          ]
+        }
+      }
+order: 1000
