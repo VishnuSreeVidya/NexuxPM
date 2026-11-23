@@ -1,4 +1,9 @@
-const configuredBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000'
+// In production the API URL must be supplied at build time (GitHub Actions
+// repository variable VITE_API_BASE_URL). A localhost fallback is used only for
+// local `npm run dev`, never for the deployed GitHub Pages bundle.
+const configuredBaseUrl =
+  import.meta.env.VITE_API_BASE_URL?.trim() ||
+  (import.meta.env.DEV ? 'http://127.0.0.1:8000' : '')
 export const API_BASE_URL = configuredBaseUrl.replace(/\/+$/, '')
 
 export class ApiError extends Error {
